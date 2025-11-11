@@ -1,0 +1,15 @@
+#Ultralytics is neccesary to use YOLO models, OpenCV for preprocess and other toold
+
+ultralytics == 8.3.224
+
+#Imutils provides tools to make easier the preprocessing with OpenCV
+
+imutils == 0.5.4
+
+#Deep learing framework neccesary to use PaddleOCR
+
+paddlepaddle == 3.2.1
+
+#PaddleOCR is an open-source Optical Character Recognition (OCR) toolset.
+
+paddleocr == 3.3.1

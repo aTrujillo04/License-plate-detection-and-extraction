@@ -15,7 +15,7 @@ PATTERN_LNNLLL = re.compile(r'^([A-Z]{1})([0-9]{2})([A-Z]{3})$')
 
 
 # Variable to control frame skipping and control
-FRAME_SKIP = 5 
+FRAME_SKIP = 6
 frame_count = 0 
 
 # Initialize YOLO trained model and PaddleOCR
