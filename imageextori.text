@@ -6,7 +6,7 @@ import imutils
 import re
 
 # Define the path for the image you want to test
-image = cv2.imread("./test_plates/test.jpeg")
+image = cv2.imread("./test_plates/placaaprue.jpeg")
 
 # Initialize YOLO model and PaddleOCR
 model = YOLO("best.pt") # Trained YOLO model for license plate detection
