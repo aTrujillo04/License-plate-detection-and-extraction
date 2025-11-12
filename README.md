@@ -22,10 +22,10 @@ to make de detection and extraction from an image or in real time with a functio
 ## Requirements
 **Hardware**
 - Webcam
-- 
+
 **Software**
 - Ubuntu **22.04** 
-- Python 3.10
+- Python 3.10 / Window 10 >
 
 ## Installation
 
@@ -75,6 +75,13 @@ action-tutorials-interfaces==0.20.5
 ## Operation
 
 Now, let's prepare the necessary resources and configurations to get a correct script launch.
+
+So, let's start the **realtime_ext.py**. To run this script a folder needs to be created inside the project folder. This new folder will contain **the license plates images** you want to detect and 
+extract. It is suggested to take the photos in a frontal plane or not too inclined plane, the OCR won't work with too inclined planes. find here some examples:
+
+IMAGENES EDITADASSSSSSSSSS
+
+LINEASSSS A CAMBIAR PARA CORRER
 
 Then, you wil be able to **launch the scripts** by entering the following commands in the terminal:
 
