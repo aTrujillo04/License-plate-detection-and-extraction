@@ -21,11 +21,12 @@ to make de detection and extraction from an image or in real time with a functio
 
 ## Requirements
 **Hardware**
+- Functional PC/Laptop
 - Webcam
 
 **Software**
-- Ubuntu **22.04** 
-- Python 3.10 / Window 10 >
+- Ubuntu **22.04** / Windows 10 >
+- Python 3.10 
 
 ## Installation
 
