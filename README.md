@@ -3,6 +3,9 @@
 This project implements a YOLOv11 trained model to detect vehicle license plates. Then, with PaddleOCR and a specific preprocessing programmed the vehicle registration is extracted from the license plate. The project also provides the option
 to make de detection and extraction from an image or in real time with a functional camera.
 
+![](/assets/example.jpeg)
+
+
 ## Features
 - **Detection:** the provided YOLO trained model detects license plates in vehicles. First recognizing the frontal car structure and then detecting the license plate from it.
 - **Extraction:** the project contains an OCR that extract the vehicle registration by applying a programmed filter.
@@ -92,9 +95,7 @@ Then, you wil be able to **launch the script** by entering the following command
 python3 images_ext.py
 ```
 
-And also, in case of **images_ext.py** three window will deploy, one for the **image with detection and extraction applyed** and the other two images with the **cropped license plate and cropped license plate but in gray scale**. Just like this:
-IMAGEEEEEEEEEEENNNNN
-IMAGENNNNNNNNNNN
+And also, in case of **images_ext.py** three window will deploy, one for the **image with detection and extraction applyed** and the other two images with the **cropped license plate and cropped license plate but in gray scale**. 
 
 Then, for the real time detection and extraction, two important parameters have to be defined in **realtime_ext.py** script to run optimally:
 
@@ -146,9 +147,7 @@ Now, after setting this parameters. The script **realtime_ext.py** is ready to b
 python3 realtime_ext.py
 ```
 
-Finally, you will see a deployed window. Through this window you will be able to see the **real time camera record** and the **detection and extraction. Just like this**:
-
-IMAGENNNNNN
+Finally, you will see a deployed window. Through this window you will be able to see the **real time camera record** and the **detection and extraction. 
 
 If the both scripts run optimally you should be able to see something like this:
 
