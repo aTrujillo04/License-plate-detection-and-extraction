@@ -1,7 +1,7 @@
 # License Plate detection and extraction with YOLO and PaddleOCR
 
 This project implements a YOLOv11 trained model to detect vehicle license plates. Then, with PaddleOCR and a specific preprocessing programmed the vehicle registration is extracted from the license plate. The project also provides the option
-to make de detection and extraction from an image or in real time with a functional camera.
+to make the detection and extraction from an image or in real time with a functional camera.
 
 ![](/assets/example2.jpeg)
 
@@ -130,9 +130,9 @@ Depstech webcam: Depstech webca (usb-0000:36:00.4-1):
 	/dev/media1
 ```
 
-Analyzing the log, we see **Deepstech webcam** as the coneected webcam via USB, due to USB.0 HD is the **integrated webcam** in the Laptop we do not want to use. The video output is also listed as devide 2: **/dev/video2**.
+Analyzing the log, we see **Deepstech webcam** as the coneected webcam via USB, due to USB.0 HD is the **integrated webcam** in the Laptop we do not want to use. The video output is also listed as device 2: **/dev/video2**.
 
-Now, it is important to search the camera resoluton and specify the data correctly, in order to ensure a good operation and a resoruces saving. Also it will enhance the detection and extraction accuracy due to the frame processing.
+Now, it is important to search the camera resolution and specify the data correctly, in order to ensure a good operation and a resoruces saving. Also it will enhance the detection and extraction accuracy due to the frame processing.
 So, after figuring out the exactly camera resolution, change it in **line 34 and 35**.
 
 ```bash
@@ -187,7 +187,7 @@ License-plate-detection-and-extraction/
 
 During the **image_ext.py** you may face two different problems:
 
-1. If you are trying to run the **image_ext.py** script and you receive the following output:
+ If you are trying to run the **image_ext.py** script and you receive the following output:
 
 ```bash
 [ WARN:0@5.742] global loadsave.cpp:275 findDecoder imread_('./test_plates/test34.jpeg'): can't open/read file: check file path/integrity
@@ -199,7 +199,7 @@ AttributeError: 'NoneType' object has no attribute 'shape'
 
 It means that the image's path is not correctly defined, so you must copy and paste the exactly image path to solve the trouble. You also have to ensure that the image has a **jpeg, jpg or png** format.
 
-2. Other common error output could be:
+Other common error output could be:
 
 ```bash
 Traceback (most recent call last):
@@ -237,7 +237,7 @@ Video source cannot be opened: 2
 ```
 
 This means that the process did not found a functional video devide to use. So you must:
--Confirm that you have a functional connected webcam/camera.
+- Confirm that you have a functional connected webcam/camera.
 - Verify the listed video output in terminal.
 - Do camera tests in other applications to confirm webcam functionality.
 - Ensure the correct listed video device in your scripts.
