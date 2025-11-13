@@ -7,7 +7,7 @@ import re
 import numpy as np # Added numpy for preprocessing
 
 # Define the path for the image you want to test
-image = cv2.imread("./test_plates/placa2.jpeg")
+image = cv2.imread("./test_plates/test.jpeg")
 
 # Get original image dimensions
 orig_h, orig_w, _ = image.shape
