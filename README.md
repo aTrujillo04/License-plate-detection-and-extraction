@@ -3,7 +3,7 @@
 This project implements a YOLOv11 trained model to detect vehicle license plates. Then, with PaddleOCR and a specific preprocessing programmed the vehicle registration is extracted from the license plate. The project also provides the option
 to make de detection and extraction from an image or in real time with a functional camera.
 
-![](/assets/example.jpeg)
+![](/assets/example2.jpeg)
 
 
 ## Features
@@ -80,9 +80,7 @@ Now, let's prepare the necessary resources and configurations to get a correct *
 So, let's start the **image_ext.py**. To run this script a folder needs to be created inside the project folder. This new folder will contain **the license plates images** you want to detect and 
 extract. It is suggested to take the photos in a frontal plane or not too inclined plane, the OCR won't work with too inclined planes. Find here some examples:
 
-IMAGENES EDITADASSSSSSSSSS
-
-LINEASSSS A CAMBIAR PARA CORRER
+![](/assets/example.jpeg)
 
 It is also neccesary to **change the image path** in **line 10** in **image_ext.py** script:
 
@@ -187,8 +185,63 @@ License-plate-detection-and-extraction/
 
 ## Troubleshooting
 
+During the **image_ext.py** you may face two different problems:
 
+1. If you are trying to run the **image_ext.py** script and you receive the following output:
 
+```bash
+[ WARN:0@5.742] global loadsave.cpp:275 findDecoder imread_('./test_plates/test34.jpeg'): can't open/read file: check file path/integrity
+Traceback (most recent call last):
+  File "/home/antoniotru/veli_plate/images_ext.py", line 13, in <module>
+    orig_h, orig_w, _ = image.shape
+AttributeError: 'NoneType' object has no attribute 'shape'
+```
+
+It means that the image's path is not correctly defined, so you must copy and paste the exactly image path to solve the trouble. You also have to ensure that the image has a **jpeg, jpg or png** format.
+
+2. Other common error output could be:
+
+```bash
+Traceback (most recent call last):
+  File "/home/antoniotru/veli_plate/images_ext.py", line 16, in <module>
+    model = YOLO("best") # Trained YOLO model for license plate detection
+  File "/home/antoniotru/veli_plate/virenv/lib/python3.10/site-packages/ultralytics/models/yolo/model.py", line 81, in __init__
+    super().__init__(model=model, task=task, verbose=verbose)
+  File "/home/antoniotru/veli_plate/virenv/lib/python3.10/site-packages/ultralytics/engine/model.py", line 149, in __init__
+    self._load(model, task=task)
+  File "/home/antoniotru/veli_plate/virenv/lib/python3.10/site-packages/ultralytics/engine/model.py", line 293, in _load
+    weights = checks.check_file(weights)  # runs in all cases, not redundant with above call
+  File "/home/antoniotru/veli_plate/virenv/lib/python3.10/site-packages/ultralytics/utils/checks.py", line 577, in check_file
+    raise FileNotFoundError(f"'{file}' does not exist")
+FileNotFoundError: 'best' does not exist
+```
+
+This terminal output means that you are **not** loading the YOLO trained model **correctly**. So you must ensure to enter the corret model name including **.pt** extension. You also should verify that the YOLO model path is the correct one.
+
+Now, for the **realtime_ext.py** script you may receive a **terminal error output**:
+
+```bash
+/home/antoniotru/veli_plate/virenv/lib/python3.10/site-packages/paddle/utils/cpp_extension/extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+Creating model: ('PP-LCNet_x1_0_doc_ori', None)
+Model files already exist. Using cached files. To redownload, please delete the directory manually: `/home/antoniotru/.paddlex/official_models/PP-LCNet_x1_0_doc_ori`.
+Creating model: ('UVDoc', None)
+Model files already exist. Using cached files. To redownload, please delete the directory manually: `/home/antoniotru/.paddlex/official_models/UVDoc`.
+Creating model: ('PP-OCRv5_server_det', None)
+Model files already exist. Using cached files. To redownload, please delete the directory manually: `/home/antoniotru/.paddlex/official_models/PP-OCRv5_server_det`.
+Creating model: ('latin_PP-OCRv5_mobile_rec', None)
+Model files already exist. Using cached files. To redownload, please delete the directory manually: `/home/antoniotru/.paddlex/official_models/latin_PP-OCRv5_mobile_rec`.
+[ WARN:0@8.670] global cap_v4l.cpp:914 open VIDEOIO(V4L2:/dev/video2): can't open camera by index
+[ERROR:0@8.784] global obsensor_uvc_stream_channel.cpp:163 getStreamChannelGroup Camera index out of range
+Video source cannot be opened: 2
+```
+
+This means that the process did not found a functional video devide to use. So you must:
+-Confirm that you have a functional connected webcam/camera.
+- Verify the listed video output in terminal.
+- Do camera tests in other applications to confirm webcam functionality.
+- Ensure the correct listed video device in your scripts.
+  
 ## Contributing
 Contributions are appreciated. Please follow this steps to contribute:
 1. Clon the repository.
