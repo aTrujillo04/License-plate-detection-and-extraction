@@ -7,7 +7,7 @@ import re
 import numpy as np # Added numpy for preprocessing
 
 # Define the path for the image you want to test
-image = cv2.imread("./test_plates/test.jpeg")
+image = cv2.imread("./test_plates/test1.jpeg")
 
 # Get original image dimensions
 orig_h, orig_w, _ = image.shape
@@ -33,21 +33,19 @@ def preprocess_for_ocr(img_crop): # Receives the cropped license plate image
     # Compute Otsu's thresholding and binarize the image (black text on white background)
     thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
     
-    # Morphological operations to clean up noise
+    # Morphological operations to fill little holes and reduce noise
     kernel = np.ones((2,2), np.uint8)
     thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, iterations=1)
     
     return thresh # Return the 1-channel binary image
 
-def format_plate_text(text):
+def format_plate_text(text): #Function that receives the raw text
     # Clean and format the OCR text to match known license plate patterns.
     # Clean the text: uppercase, remove spaces and non-alphanumeric characters
     raw_text = text.upper().replace(" ", "")
     raw_text = re.sub(r'[^A-Z0-9]', '', raw_text)
    
-    # --- Nueva Lógica de Búsqueda ---
-    # Buscará los patrones DENTRO de la cadena 'raw_text'
-    # Damos prioridad a los patrones de 7 caracteres
+    #It will look for patterns inside the raw text
     
     match = PATTERN_LLLNNNL.search(raw_text) #Look for the pattern
     if match:
@@ -75,7 +73,7 @@ def format_plate_text(text):
     #Return if no pattern is found
     return ""
 
-# Execute YOLO model on the image
+# Execute YOLO model on the image printing the box
 results = model(image)
 print(results[0].boxes)
 
@@ -117,7 +115,7 @@ for result in results:
             
             output_text = "" # Initialize empty text
 
-            # 4. Formatear texto (usando la nueva función)
+            #Look for not empty detections 
             if result_ocr and result_ocr[0]:
                 try:
                     boxes = result_ocr[0]['rec_boxes']
@@ -128,7 +126,7 @@ for result in results:
                     # Combine text
                     raw_text_combined = ''.join([t for _, t in left_to_right])
                     
-                    # Format text using the new function
+                    # Format text
                     output_text = format_plate_text(raw_text_combined)
                     print(f"Raw: {raw_text_combined} -> Formatted: {output_text}")
 
@@ -141,7 +139,7 @@ for result in results:
             cv2.imshow("Preprocessed B&W Plate (No Mask)", preprocessed_plate)
             
             # Draw bounding box and recognized text on the original image
-            if output_text: # Si el texto es válido (¡Ahora debería serlo!)
+            if output_text: 
                 box_color = (0, 255, 0) # Green
                 cv2.rectangle(image, (x1 - 10, y1 - 35), (x2 + 10, y2-(y2 -y1)), box_color, -1)
                 cv2.rectangle(image, (x1, y1), (x2, y2), box_color, 2)

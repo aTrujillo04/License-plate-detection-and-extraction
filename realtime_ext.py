@@ -122,7 +122,6 @@ def format_plate_text(text):
 # Instructions for the user 
 print("Initializing, press --q-- to exit and --s-- to save the image.")
 
-# --- Bucle Principal ---
 
 # Variables to store the last successfully read plate information
 last_plate_info = {"text": "", "x1": 0, "y1": 0, "x2": 0, "y2": 0}
