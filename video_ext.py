@@ -8,34 +8,32 @@ from paddleocr import PaddleOCR
 
 ## Initial setup
 
-# --- CONFIGURACIÓN DE VIDEO Y ENTORNO ---
-# Rutas de archivos
 VIDEO_DIR = "test_plates"
 INPUT_VIDEO_FILE = os.path.join(VIDEO_DIR, "plat.mp4")
 OUTPUT_VIDEO_FILE = os.path.join(VIDEO_DIR, "output_plate_detection.mp4")
 
-# Crear el directorio si no existe.
+# Create the folder if it does not exists
 if not os.path.exists(VIDEO_DIR):
     os.makedirs(VIDEO_DIR)
     print(f"--- Directorio creado: {VIDEO_DIR} ---")
 # ----------------------------------------
 
-# Aquí, definimos los patrones para diferentes formatos de matrícula.
+#Defined patterns for the license plates
 PATTERN_LLLNNNL = re.compile(r'^([A-Z]{3})([0-9]{3})([A-Z]{1})$') 
 PATTERN_LLLNNNN = re.compile(r'^([A-Z]{3})([0-9]{4})$') 
 PATTERN_LNNLLL = re.compile(r'^([A-Z]{1})([0-9]{2})([A-Z]{3})$')
 
 
-# Variable para controlar el salto de frames y el control de procesamiento.
+# Variable created to control the frame detection
 FRAME_SKIP = 6
 frame_count = 0 
 
-# Inicializar modelo entrenado de YOLO y PaddleOCR
+# Initialize the YOLO model and PaddleOCR
 print("--- Inicializando modelos: YOLO y PaddleOCR ---")
 model = YOLO("best.pt")
 ocr = PaddleOCR(use_textline_orientation=False, lang='es') 
 
-# Configuración de captura de video
+#Video settings
 cap = cv2.VideoCapture(INPUT_VIDEO_FILE)
 
 if not cap.isOpened():
@@ -43,15 +41,14 @@ if not cap.isOpened():
     print("Asegúrate de que el archivo 'plate.mp4' exista dentro de la carpeta 'test_plates'.")
     exit()
 
-# Definir la resolución y FPS del video de entrada
+# Define the input video resolution
 real_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 real_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 fps = cap.get(cv2.CAP_PROP_FPS) 
 
 print(f"--- Resolución del video de entrada: {real_width}x{real_height} ({fps:.2f} FPS) ---")
 
-# --- CONFIGURACIÓN DEL ESCRITOR DE VIDEO DE SALIDA ---
-# Usamos un códec común como MP4V. Si da error, se puede probar 'DIVX' o 'XVID'.
+# Output video configuration (codec)
 fourcc = cv2.VideoWriter_fourcc(*'mp4v') 
 video_writer = cv2.VideoWriter(OUTPUT_VIDEO_FILE, fourcc, fps, (real_width, real_height))
 if not video_writer.isOpened():
@@ -62,8 +59,8 @@ if not video_writer.isOpened():
 
 ## Functions
 
-def preprocess_for_ocr(img_crop): # Recibe la imagen recortada de la matrícula
-   # FUNCIÓN DE PREPROCESAMIENTO ORIGINAL (ROI masking y Otsu thresholding)
+def preprocess_for_ocr(img_crop): # Get the cut license image
+   # ROI masking
     h, w, _ = img_crop.shape
 
     #Create a mask to focus on the central area of the license plate
@@ -136,14 +133,14 @@ def format_plate_text(text):
     return output_text
 
 
-# Variables para almacenar la última matrícula leída exitosamente
+# Variable to storage the last license detecion
 last_plate_info = {"text": "", "x1": 0, "y1": 0, "x2": 0, "y2": 0}
 plate_found_count = 0
 
 print("--- Procesando video, esto puede tardar... ---")
 
 while True:
-    ret, frame = cap.read() # Siguiente frame
+    ret, frame = cap.read() #Next frame
     if not ret:
         break
 
@@ -200,7 +197,7 @@ while True:
                         if result_ocr and result_ocr[0]: 
                             data = result_ocr[0] 
                             
-                            # Adaptar la extracción del texto según el formato real de PaddleOCR
+                            # Adapt the extraction with Paddle format
                             if isinstance(data, list):
                                 text_list = [item[1][0] for item in data]
                             elif isinstance(data, dict) and 'rec_texts' in data:
@@ -222,7 +219,7 @@ while True:
                                 found_plate_in_frame = True
                                 break 
                             # else:
-                                 # print(f"DEBUG: Texto encontrado ({raw_text_combined}), pero no coincide con los patrones de formato.")
+                                 # print(f"DEBUG: Fund Text ({raw_text_combined}), but doees no match with a pattern.")
                         
                     except Exception as e:
                         # print(f"Error while processing OCR in frame {frame_count}: {e}")
@@ -235,8 +232,6 @@ while True:
         #Cleaning last plate info if no plate found in current frame
         if temp_box and not found_plate_in_frame:
             last_plate_info["text"] = "" 
-
-    # --- DIBUJAR DETECCIONES EN EL FRAME (PARA EL VIDEO DE SALIDA) ---
     
     #If valid text was found (either in this frame or from last valid read)
     if output_text or last_plate_info["text"]:
@@ -257,7 +252,7 @@ while True:
         #Detection box (red)
         cv2.rectangle(frame, (temp_box[0], temp_box[1]), (temp_box[2], temp_box[3]), (0, 0, 255), 2)
 
-    # --- GUARDAR EL FRAME PROCESADO EN EL ARCHIVO DE SALIDA ---
+    # --- Save the frame in the output video. ---
     video_writer.write(frame)
 
 #Resource cleanup
