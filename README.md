@@ -244,7 +244,7 @@ This means that the process did not found a functional video devide to use. So y
   
 ## Contributing
 Contributions are appreciated. Please follow this steps to contribute:
-1. Clon the repository.
+1. Clone the repository.
 2. Create a new branch.
 3. Make your changes in the new branch.
 4. Commit your changes.
